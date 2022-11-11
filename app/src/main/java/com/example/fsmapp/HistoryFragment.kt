@@ -11,7 +11,7 @@ import com.example.fsmapp.databinding.FragmentSecondBinding
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class SecondFragment : Fragment() {
+class HistoryFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
 
