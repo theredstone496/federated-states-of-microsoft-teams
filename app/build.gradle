@@ -44,7 +44,9 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
     // define a BOM and its version
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
-
+    implementation 'com.beust:klaxon:5.5'
+    implementation 'com.sealwu.jsontokotlin:library:3.7.4'
+    implementation 'com.google.code.gson:gson:2.8.2'
     // define any required OkHttp artifacts without version
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")

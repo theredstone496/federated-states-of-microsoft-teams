@@ -42,20 +42,15 @@ class FirstFragment : Fragment() {
 
     }
 
-    @Throws(IOException::class)
-    //fun run(url: String): String {
-        //val request: Request = Request.Builder()
-         //   .url(url)
-          ///  .build()
-       // client.newCall(request).execute().use { response -> return response.body!!.string() }
-    //}
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //binding.buttonFirst.setOnClickListener {
-            //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        //}
+        binding.buttonFirst.setOnClickListener {
+            var docs = viewModel.getDocs()
+            binding.textviewFirst.text = docs.toString()
+        }
     }
 
     override fun onDestroyView() {

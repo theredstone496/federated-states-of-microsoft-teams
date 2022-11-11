@@ -10,15 +10,16 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
+import com.beust.klaxon.Klaxon
 
 import com.example.fsmapp.databinding.ActivityMainBinding
+import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.IOException
 import okhttp3.Response
-
-
-
+import okhttp3.RequestBody
+import wu.seal.jsontokotlin.model.TargetJsonConverter
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var client: OkHttpClient
+    private var result = ""
     public val JSON: MediaType? = "application/json; charset=utf-8".toMediaTypeOrNull()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +47,11 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
-
-            run("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key=gexbmadHEPpVdjshvrGfyVGOtn4i2Flu")
-
-
+            print(result)
+            result = run("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=micronesia&api-key=gexbmadHEPpVdjshvrGfyVGOtn4i2Flu")
+            print("valls2")
+            //var result2 = Klaxon().parse<NYTResult>(result)
+            //print(result2!!.response)
         }
     }
 
@@ -85,11 +88,11 @@ class MainActivity : AppCompatActivity() {
         call.enqueue(callback!!)
         return call
     }
-    fun run(url: String) {
+    fun run(url: String): String {
         val request = Request.Builder()
             .url(url)
             .build()
-
+        var result: String = ""
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
@@ -103,10 +106,16 @@ class MainActivity : AppCompatActivity() {
                         println("$name: $value")
                     }
 
-                    println(response.body!!.string())
+                    result = response.body!!.string()
+                    println(result)
+                    var result2 = Gson().fromJson(result, NYTResult2.NYTResult3::class.java)
+                    println(result2.response.docs)
+                    viewModel.getDocData().postValue(result2.response.docs as ArrayList<NYTResult2.Doc>?)
+                    println("valls")
                 }
             }
         })
-
+        return result
     }
+
 }
