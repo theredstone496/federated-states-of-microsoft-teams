@@ -22,4 +22,11 @@ class MainViewModel() : ViewModel() {
     fun getDocData(): MutableLiveData<ArrayList<NewsResult.Article>> {
         return docs
     }
+    private val sources: MutableLiveData<ArrayList<SourceItem>> = MutableLiveData(ArrayList())
+    fun getSources(): ArrayList<SourceItem>? {
+        return sources.value
+    }
+    fun getSourceData(): MutableLiveData<ArrayList<SourceItem>> {
+        return sources
+    }
 }

@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        getSources("https://newsapi.org/v2/sources?q=climate&sortBy=popularity&sources=abc-news&apiKey=ac6a109a7e764a83bbc8836e8f79cb2b")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //binding.whateverbutton.setOnClickListener { view ->
@@ -36,6 +36,10 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         client = OkHttpClient()
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel.getSourceData().observe(this, { newValue ->
+            var sources = viewModel.getSources()
+            Settings.sources = sources!!
+        })
         val adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
@@ -85,7 +89,36 @@ class MainActivity : AppCompatActivity() {
         })
         return result
     }
+    fun getSources(url: String): String {
+        val request = Request.Builder()
+            .url(url)
+            .build()
+        var result: String = ""
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
+
+                    result = response.body!!.string()
+                    println(result)
+                    var result2 = Gson().fromJson(result, SourceItem::class.java)
+
+                    viewModel.getSourceData()
+                        .postValue(result2 as ArrayList<SourceItem>?)
+                    println("valls")
+
+
+
+                }
+
+            }
+        })
+        return result
+    }
 }
 
 
