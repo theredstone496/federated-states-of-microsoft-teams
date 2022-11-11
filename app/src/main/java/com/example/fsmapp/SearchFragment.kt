@@ -50,7 +50,8 @@ class SearchFragment : Fragment() {
 
         binding.recyclerView.adapter = RecyclerAdapter(articleList) //idk change adapter if needed
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.getDocData().observe(this, { newValue ->
+        viewModel.getDocData().observe(viewLifecycleOwner
+        ) { newValue ->
             articleList.clear()
             var articles = viewModel.getDocs()!!
             for (article: NewsResult.Article in articles) {
@@ -58,12 +59,13 @@ class SearchFragment : Fragment() {
                 articleinfo.add(article.title)
                 articleinfo.add(article.author)
                 articleinfo.add(article.source.name)
+                articleinfo.add(article.urlToImage)
+                articleinfo.add(article.publishedAt)
                 articleList.add(articleinfo)
             }
             var adapter = binding.recyclerView.adapter
             adapter!!.notifyDataSetChanged()
 
         }
-        )
     }
 }

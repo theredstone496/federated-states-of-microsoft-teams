@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="10dp">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,12 +14,14 @@
             android:id="@+id/article_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
             android:maxLines="100"
             android:minLines="1"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.131"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/article_image"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:textColor="@color/black" />
@@ -29,11 +30,12 @@
             android:id="@+id/article_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="6dp"
             android:text="efefefefe"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/article_title"
             tools:textColor="@color/black" />
@@ -42,16 +44,27 @@
             android:id="@+id/article_source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="16dp"
             android:text="efefefefe"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/article_author"
             tools:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/article_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/stat_notify_error"
+            tools:srcCompat="@android:drawable/ic_dialog_map" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
