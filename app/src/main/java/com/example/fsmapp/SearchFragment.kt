@@ -27,6 +27,6 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerView.adapter = RecyclerAdapter(articleList) //idk change adapter if needed
+        //binding.recyclerView.adapter = RecyclerAdapter(articleList) //idk change adapter if needed
     }
 }
