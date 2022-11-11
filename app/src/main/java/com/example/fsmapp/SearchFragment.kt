@@ -71,7 +71,7 @@ class SearchFragment : Fragment() {
             adapter!!.notifyDataSetChanged()
 
         }
-        )
+
         binding.sortButton.setOnClickListener { view ->
             var builder: AlertDialog.Builder = AlertDialog.Builder(this.context)
             var contentView: View = this.layoutInflater.inflate(R.layout.sort_dialog, binding.mainView, false)
