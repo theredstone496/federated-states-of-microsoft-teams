@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--also from stackoverflow lol-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <TextView
+        android:id="@+id/tvSpinnerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/llSpinnerSelected"
+        android:textColor="@color/black"
+        android:textSize="14sp"/>
+    <LinearLayout
+        android:id="@+id/llSpinnerSelected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true">
+        <ImageView
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:src="@drawable/ic_baseline_circle_24"/>
+    </LinearLayout>
+</RelativeLayout>

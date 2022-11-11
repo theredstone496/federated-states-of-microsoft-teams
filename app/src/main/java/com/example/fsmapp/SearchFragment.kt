@@ -8,14 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.SearchView
+import android.widget.Spinner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fsmapp.databinding.FragmentSearchBinding
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), MultiSelectionSpinnerAdapter.MultipleSelectionCallBack {
 
     private var _binding: FragmentSearchBinding? = null
-
+    val items = ArrayList<String>()
+    lateinit var multiSpinner: Spinner
+    lateinit var  multiSelectionSpinnerAdapter : MultiSelectionSpinnerAdapter
+    private var selectedItemsList: java.util.ArrayList<String> = java.util.ArrayList()
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -30,6 +34,21 @@ class SearchFragment : Fragment() {
     ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         searchView = _binding!!.searchView
+        for (source in Settings.sources) {
+            items.add(source.name)
+        }
+        multiSpinner = _binding!!.multiSpinner as Spinner
+        multiSelectionSpinnerAdapter = MultiSelectionSpinnerAdapter(requireContext(), items, this)
+        multiSpinner.adapter = multiSelectionSpinnerAdapter
+        viewModel.getSourceData().observe(this, { newValue ->
+            for (source in viewModel.getSources()!!) {
+                items.add(source.name)
+            }
+            multiSpinner = _binding!!.multiSpinner as Spinner
+            multiSelectionSpinnerAdapter = MultiSelectionSpinnerAdapter(requireContext(), items, this)
+            multiSpinner.adapter = multiSelectionSpinnerAdapter
+            multiSelectionSpinnerAdapter.notifyDataSetChanged()
+        })
         searchView.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
@@ -92,5 +111,14 @@ class SearchFragment : Fragment() {
     }
     fun search() {
         activity.run("https://newsapi.org/v2/everything?q=" + Settings.query + "&sortBy=" + Settings.sortBy + "&apiKey=ac6a109a7e764a83bbc8836e8f79cb2b")
+    }
+    override fun onItemSelect(isSelect: Boolean, selectedItemText: String, position: Int) {
+        if(isSelect){
+            selectedItemsList.add(Settings.sources[position].id)
+        }else{
+            selectedItemsList.remove(Settings.sources[position].id)
+        }
+        multiSelectionSpinnerAdapter.setSelectedItemsList(selectedItemsList)
+
     }
 }
