@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * @param articleList ArrayList of Arrays. Pass arguments into Array in order: title, author, source.
  * */
-class RecyclerAdapter(private val articleList: ArrayList<Array<String>>):
+class RecyclerAdapter(private val articleList: ArrayList<ArrayList<String>>):
     RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,7 +30,7 @@ class RecyclerAdapter(private val articleList: ArrayList<Array<String>>):
         private var articleAuthor: TextView = itemView.findViewById(R.id.article_author)
         private var articleSource: TextView = itemView.findViewById(R.id.article_source)
 
-        fun bindItems(article: Array<String>) {
+        fun bindItems(article: ArrayList<String>) {
             articleTitle.text = article[0]
             articleAuthor.text = article[1]
             articleSource.text = article[2]

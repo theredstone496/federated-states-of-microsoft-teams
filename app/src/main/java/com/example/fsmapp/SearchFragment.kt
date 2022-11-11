@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fsmapp.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment() {
@@ -20,6 +20,7 @@ class SearchFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var searchView: SearchView
     private lateinit var activity: MainActivity
+    private var articleList: ArrayList<ArrayList<String>> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +48,22 @@ class SearchFragment : Fragment() {
         activity = requireActivity() as MainActivity
         super.onViewCreated(view, savedInstanceState)
 
-        //binding.recyclerView.adapter = RecyclerAdapter(articleList) //idk change adapter if needed
+        binding.recyclerView.adapter = RecyclerAdapter(articleList) //idk change adapter if needed
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewModel.getDocData().observe(this, { newValue ->
+            articleList.clear()
+            var articles = viewModel.getDocs()!!
+            for (article: NewsResult.Article in articles) {
+                var articleinfo = ArrayList<String>()
+                articleinfo.add(article.title)
+                articleinfo.add(article.author)
+                articleinfo.add(article.source.name)
+                articleList.add(articleinfo)
+            }
+            var adapter = binding.recyclerView.adapter
+            adapter!!.notifyDataSetChanged()
+
+        }
+        )
     }
 }
