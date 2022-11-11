@@ -1,5 +1,6 @@
 package com.example.fsmapp
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,6 +65,11 @@ class RecyclerAdapter(private val articleList: ArrayList<NewsResult.Article>):
                 catch (e: Exception) {
                     e.printStackTrace()
                 }
+            }
+            itemView.setOnClickListener { view ->
+                val intent = Intent(view.context, WebActivity::class.java)
+                intent.putExtra("url", article.url)
+                view.context.startActivity(intent)
             }
         }
     }

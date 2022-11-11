@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var db: Database
     }
 
+    val key = "ca3244e2e766418fbcdc3a6e391e3a33"
     private lateinit var binding: ActivityMainBinding
     private val textArray = arrayOf(R.string.history, R.string.search, R.string.history)
     public val JSON: MediaType? = "application/json; charset=utf-8".toMediaTypeOrNull()
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         db = Database(this)
         client = OkHttpClient()
-        getSources("https://newsapi.org/v2/sources?q=climate&sortBy=popularity&sources=abc-news&apiKey=ac6a109a7e764a83bbc8836e8f79cb2b")
+        getSources("https://newsapi.org/v2/sources?q=climate&sortBy=popularity&sources=abc-news&apiKey=" + key)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

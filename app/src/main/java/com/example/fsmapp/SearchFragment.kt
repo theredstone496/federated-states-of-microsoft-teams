@@ -13,7 +13,6 @@ import android.widget.SearchView
 import android.widget.Spinner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.fsmapp.databinding.FragmentSearchBinding
 import java.util.*
 import kotlin.collections.ArrayList
@@ -30,6 +29,7 @@ class SearchFragment : Fragment() {
     var selectedLanguage: BooleanArray? = null
     var langList: ArrayList<Int> = ArrayList()
     var langArray = arrayOf<String>()
+    val key = "ca3244e2e766418fbcdc3a6e391e3a33"
     private val binding get() = _binding!!
     private lateinit var viewModel: MainViewModel
     private lateinit var searchView: SearchView
@@ -181,15 +181,7 @@ class SearchFragment : Fragment() {
             if (source.language in langlist) sourcelist += (source.id + ",")
         }
         sourcelist = sourcelist.substring(0,sourcelist.length-2)
-        print("https://newsapi.org/v2/everything?q=" + Settings.query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=ac6a109a7e764a83bbc8836e8f79cb2b")
-        activity.run("https://newsapi.org/v2/everything?q=" + Settings.query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=ac6a109a7e764a83bbc8836e8f79cb2b")
-    }
-
-    // call when user clicks on article
-    fun historyUpdated(article: NewsResult.Article) {
-        articleList.add(article)
-        val adapter = requireView().findViewById<RecyclerView>(R.id.recyclerViewHist).adapter
-        adapter!!.notifyItemInserted(-1)
-        MainActivity.db.addArticle(article)
+        print("https://newsapi.org/v2/everything?q=" + Settings.query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=" + key)
+        activity.run("https://newsapi.org/v2/everything?q=" + Settings.query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=" + key)
     }
 }
