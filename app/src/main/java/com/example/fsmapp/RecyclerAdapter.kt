@@ -56,7 +56,7 @@ class RecyclerAdapter(private val articleList: ArrayList<NewsResult.Article>):
             var image: Bitmap?
             executor.execute {
                 try {
-                    val `in` = java.net.URL(article[3]).openStream()
+                    val `in` = java.net.URL(article.url).openStream()
                     image = BitmapFactory.decodeStream(`in`)
                     handler.post {
                         articleImage.setImageBitmap(image)
@@ -68,7 +68,7 @@ class RecyclerAdapter(private val articleList: ArrayList<NewsResult.Article>):
             }
             itemView.setOnClickListener { view ->
                 val intent = Intent(view.context, WebActivity::class.java)
-                intent.putExtra("url", article[5])
+                intent.putExtra("url", article.url)
                 view.context.startActivity(intent)
             }
         }
