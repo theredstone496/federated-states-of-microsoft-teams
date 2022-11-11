@@ -55,15 +55,12 @@ class Database(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         return historyList
     }
 
-    fun saveHistory(historyList: ArrayList<String>, table: String) {
+    fun addHistory(entry: String, table: String) {
         val db = writableDatabase
-        var values: ContentValues
         val i = tableIndex(table)
-        for (entry in historyList) {
-            values = ContentValues()
-            values.put(cols[i], entry)
-            db.insert(tables[i], null, values)
-        }
+        var values = ContentValues()
+        values.put(cols[i], entry)
+        db.insert(tables[i], null, values)
         db.close()
     }
 

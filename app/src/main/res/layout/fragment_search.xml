@@ -44,4 +44,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/searchView"
         app:srcCompat="@drawable/ic_baseline_import_export_24" />
+
+    <ImageButton
+        android:id="@+id/sourceButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_circle_24"
+        app:layout_constraintStart_toStartOf="@+id/searchView"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

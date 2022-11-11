@@ -2,6 +2,7 @@ package com.example.fsmapp
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.DialogInterface.OnMultiChoiceClickListener
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.SearchView
+import android.widget.Spinner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fsmapp.databinding.FragmentSearchBinding
@@ -16,14 +18,20 @@ import com.example.fsmapp.databinding.FragmentSearchBinding
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
-
+    val items = ArrayList<String>()
+    lateinit var multiSpinner: Spinner
+    lateinit var  multiSelectionSpinnerAdapter : MultiSelectionSpinnerAdapter
+    private var selectedItemsList: java.util.ArrayList<String> = java.util.ArrayList()
     // This property is only valid between onCreateView and
     // onDestroyView.
+    var selectedLanguage: BooleanArray? = null
+    var langList: ArrayList<Int> = ArrayList()
+    var langArray = arrayOf<String>()
     private val binding get() = _binding!!
     private lateinit var viewModel: MainViewModel
     private lateinit var searchView: SearchView
     private lateinit var activity: MainActivity
-    private var articleList: ArrayList<ArrayList<String>> = ArrayList()
+    private var articleList: ArrayList<NewsResult.Article> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +39,12 @@ class SearchFragment : Fragment() {
     ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         searchView = _binding!!.searchView
+        for (source in Settings.sources) {
+            items.add(source.name)
+        }
+        selectedLanguage = BooleanArray(14, init = {i -> true})
+
+
         searchView.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
@@ -49,6 +63,69 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
+            for (source in viewModel.getSources()!!) {
+                if (!langArray.contains(source.language)) {
+                    langArray = langArray.plus(source.language)
+                }
+            }
+            println(langArray.size)
+            _binding!!.sourceButton.setOnClickListener(View.OnClickListener { // Initialize alert dialog
+                val builder = AlertDialog.Builder(requireContext())
+
+                // set title
+                builder.setTitle("Select Language")
+
+                // set dialog non cancelable
+                builder.setCancelable(false)
+
+                builder.setMultiChoiceItems(langArray, selectedLanguage,
+                    OnMultiChoiceClickListener { dialogInterface, i, b ->
+                        // check condition
+                        if (b) {
+                            // when checkbox selected
+                            // Add position  in lang list
+                            langList.add(i)
+                            Settings.langs[i] = true
+                            // Sort array list
+                            Collections.sort(langList)
+                        } else {
+                            // when checkbox unselected
+                            // Remove position from langList
+                            Settings.langs[i] = false
+                            langList.remove(Integer.valueOf(i))
+                        }
+                    })
+                builder.setPositiveButton(
+                    "OK"
+                ) { dialogInterface, i -> // Initialize string builder
+                    val stringBuilder = StringBuilder()
+                    // use for loop
+                    for (j in 0 until langList.size) {
+                        // concat array value
+                        stringBuilder.append(langArray.get(langList.get(j)))
+                        // check condition
+                        if (j != langList.size - 1) {
+                            // When j value  not equal
+                            // to lang list size - 1
+                            // add comma
+                            stringBuilder.append(", ")
+                        }
+                    }
+                    // set text on textView
+
+                }
+                builder.setNegativeButton(
+                    "Cancel"
+                ) { dialogInterface, i -> // dismiss dialog
+                    dialogInterface.dismiss()
+                }
+
+                // show dialog
+                builder.show()
+            })
+
+
         activity = requireActivity() as MainActivity
         super.onViewCreated(view, savedInstanceState)
 
@@ -59,18 +136,10 @@ class SearchFragment : Fragment() {
             articleList.clear()
             var articles = viewModel.getDocs()!!
             for (article: NewsResult.Article in articles) {
-                var articleinfo = ArrayList<String>()
-                articleinfo.add(article.title)
-                articleinfo.add(article.author)
-                articleinfo.add(article.source.name)
-                articleinfo.add(article.urlToImage)
-                articleinfo.add(article.publishedAt)
-                articleinfo.add(article.url)
-                articleList.add(articleinfo)
+                articleList.add(article)
             }
             var adapter = binding.recyclerView.adapter
             adapter!!.notifyDataSetChanged()
-
         }
 
         binding.sortButton.setOnClickListener { view ->
@@ -100,6 +169,16 @@ class SearchFragment : Fragment() {
         }
     }
     fun search() {
-        activity.run("https://newsapi.org/v2/everything?q=" + Settings.query + "&sortBy=" + Settings.sortBy + "&apiKey=ac6a109a7e764a83bbc8836e8f79cb2b")
+        var langlist = ArrayList<String>()
+        var sourcelist = ""
+        for (i in 0..13) {
+            if (Settings.langs[i]) langlist.add(Settings.existentlangs[i])
+        }
+        for ( source: Source.SourceItem in Settings.sources) {
+            if (source.language in langlist) sourcelist += (source.id + ",")
+        }
+        sourcelist = sourcelist.substring(0,sourcelist.length-2)
+        print("https://newsapi.org/v2/everything?q=" + Settings.query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=ac6a109a7e764a83bbc8836e8f79cb2b")
+        activity.run("https://newsapi.org/v2/everything?q=" + Settings.query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=ac6a109a7e764a83bbc8836e8f79cb2b")
     }
 }
