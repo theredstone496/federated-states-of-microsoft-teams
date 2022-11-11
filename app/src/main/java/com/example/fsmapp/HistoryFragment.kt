@@ -36,20 +36,5 @@ class HistoryFragment : Fragment() {
 
         binding.recyclerViewHist.adapter = RecyclerAdapter(articleList) //idk change adapter if needed
         binding.recyclerViewHist.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.getDocData().observe(viewLifecycleOwner
-        ) { newValue ->
-            articleList.clear()
-            var articles = viewModel.getDocs()!!
-            for (article: NewsResult.Article in articles) {
-                articleList.add(article)
-            }
-            var adapter = binding.recyclerViewHist.adapter
-            adapter!!.notifyDataSetChanged()
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

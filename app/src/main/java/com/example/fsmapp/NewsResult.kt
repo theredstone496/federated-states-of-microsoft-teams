@@ -6,10 +6,6 @@ class NewsResult {
         val status: String,
         val totalResults: Int
     )
-    data class Source(
-        val id: String,
-        val name: String
-    )
     data class Article(
         val author: String,
         val content: String,
@@ -19,5 +15,9 @@ class NewsResult {
         val title: String,
         val url: String,
         val urlToImage: String
+    )
+    data class Source(
+        val id: String,
+        val name: String
     )
 }

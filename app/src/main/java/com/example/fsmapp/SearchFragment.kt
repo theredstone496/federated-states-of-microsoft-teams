@@ -13,6 +13,7 @@ import android.widget.SearchView
 import android.widget.Spinner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fsmapp.databinding.FragmentSearchBinding
 import java.lang.StringBuilder
 import java.util.*
@@ -183,5 +184,13 @@ class SearchFragment : Fragment() {
         sourcelist = sourcelist.substring(0,sourcelist.length-2)
         print("https://newsapi.org/v2/everything?q=" + Settings.query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=ac6a109a7e764a83bbc8836e8f79cb2b")
         activity.run("https://newsapi.org/v2/everything?q=" + Settings.query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=ac6a109a7e764a83bbc8836e8f79cb2b")
+    }
+
+    // call when user clicks on article
+    fun historyUpdated(article: NewsResult.Article) {
+        articleList.add(article)
+        val adapter = requireView().findViewById<RecyclerView>(R.id.recyclerViewHist).adapter
+        adapter!!.notifyItemInserted(-1)
+        MainActivity.db.addArticle(article)
     }
 }
