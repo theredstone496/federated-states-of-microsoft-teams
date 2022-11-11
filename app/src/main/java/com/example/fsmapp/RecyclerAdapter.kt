@@ -67,9 +67,11 @@ class RecyclerAdapter(private val articleList: ArrayList<NewsResult.Article>):
                 }
             }
             itemView.setOnClickListener { view ->
+                val context = view.context as MainActivity
+                context.historyUpdated(article)
                 val intent = Intent(view.context, WebActivity::class.java)
                 intent.putExtra("url", article.url)
-                view.context.startActivity(intent)
+                context.startActivity(intent)
             }
         }
     }

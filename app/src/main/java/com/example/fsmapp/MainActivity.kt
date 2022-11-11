@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fsmapp.databinding.ActivityMainBinding
 import com.google.gson.Gson
 import okhttp3.*
@@ -125,6 +126,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
         return result
+    }
+
+    // call when user clicks on article
+    fun historyUpdated(article: NewsResult.Article) {
+        HistoryFragment.articleList.add(article)
+        var adapter = findViewById<RecyclerView>(R.id.recyclerViewHist).adapter
+        adapter!!.notifyItemInserted(-1)
+        db.addArticle(article)
     }
 }
 
