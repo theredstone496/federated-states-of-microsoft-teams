@@ -37,4 +37,12 @@ class HistoryFragment : Fragment() {
         binding.recyclerViewHist.adapter = RecyclerAdapter(articleList) //idk change adapter if needed
         binding.recyclerViewHist.layoutManager = LinearLayoutManager(requireContext())
     }
+
+    // call when user clicks on article
+    fun historyUpdated(article: NewsResult.Article) {
+        articleList.add(article)
+        var adapter = binding.recyclerViewHist.adapter
+        adapter!!.notifyItemInserted(-1)
+        db.addArticle(article)
+    }
 }
