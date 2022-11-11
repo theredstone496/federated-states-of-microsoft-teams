@@ -34,7 +34,7 @@ class SearchFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var searchView: SearchView
     private lateinit var activity: MainActivity
-    private var articleList: ArrayList<ArrayList<String>> = ArrayList()
+    private var articleList: ArrayList<NewsResult.Article> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -139,17 +139,10 @@ class SearchFragment : Fragment() {
             articleList.clear()
             var articles = viewModel.getDocs()!!
             for (article: NewsResult.Article in articles) {
-                var articleinfo = ArrayList<String>()
-                articleinfo.add(article.title)
-                articleinfo.add(article.author)
-                articleinfo.add(article.source.name)
-                articleinfo.add(article.urlToImage)
-                articleinfo.add(article.publishedAt)
-                articleList.add(articleinfo)
+                articleList.add(article)
             }
             var adapter = binding.recyclerView.adapter
             adapter!!.notifyDataSetChanged()
-
         }
 
         binding.sortButton.setOnClickListener { view ->

@@ -18,11 +18,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.concurrent.Executors
 
-
-/**
- * @param articleList ArrayList of Arrays. Pass arguments into Array in order: title, author, source.
- * */
-class RecyclerAdapter(private val articleList: ArrayList<ArrayList<String>>):
+class RecyclerAdapter(private val articleList: ArrayList<NewsResult.Article>):
     RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,12 +39,12 @@ class RecyclerAdapter(private val articleList: ArrayList<ArrayList<String>>):
         private var articleDate: TextView = itemView.findViewById(R.id.article_source)
         private var articleImage: ImageView = itemView.findViewById(R.id.article_image)
 
-        fun bindItems(article: ArrayList<String>) {
-            articleTitle.text = article[0]
-            articleSource.text = article[2]
+        fun bindItems(article: NewsResult.Article) {
+            articleTitle.text = article.title
+            articleSource.text = article.source.name
             //val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:")
             val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-            var unformattedDate = article[4]
+            var unformattedDate = article.publishedAt
             unformattedDate = unformattedDate.substring(0, unformattedDate.length-1)
             val date = LocalDateTime.parse(unformattedDate)
             articleDate.text = date.format(formatter)

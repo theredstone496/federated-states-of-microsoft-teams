@@ -13,6 +13,9 @@ import java.io.IOException
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        lateinit var db: Database
+    }
 
     private lateinit var binding: ActivityMainBinding
     private val textArray = arrayOf(R.string.history, R.string.search, R.string.history)
