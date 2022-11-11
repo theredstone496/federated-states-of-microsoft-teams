@@ -12,14 +12,14 @@ class MainViewModel() : ViewModel() {
     fun setSearch(string: String) {
         search.value = string
     }
-    private val docs: MutableLiveData<ArrayList<NYTResult2.Doc>> = MutableLiveData(ArrayList())
-    fun getDocs(): ArrayList<NYTResult2.Doc>? {
+    private val docs: MutableLiveData<ArrayList<NewsResult.Article>> = MutableLiveData(ArrayList())
+    fun getDocs(): ArrayList<NewsResult.Article>? {
         return docs.value
     }
-    fun setDocs(arrayList: ArrayList<NYTResult2.Doc>) {
+    fun setDocs(arrayList: ArrayList<NewsResult.Article>) {
         docs.value = arrayList
     }
-    fun getDocData(): MutableLiveData<ArrayList<NYTResult2.Doc>> {
+    fun getDocData(): MutableLiveData<ArrayList<NewsResult.Article>> {
         return docs
     }
 }
