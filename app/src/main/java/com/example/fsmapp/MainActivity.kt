@@ -22,9 +22,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        client = OkHttpClient()
         getSources("https://newsapi.org/v2/sources?q=climate&sortBy=popularity&sources=abc-news&apiKey=ac6a109a7e764a83bbc8836e8f79cb2b")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         //binding.whateverbutton.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
@@ -105,10 +107,10 @@ class MainActivity : AppCompatActivity() {
 
                     result = response.body!!.string()
                     println(result)
-                    var result2 = Gson().fromJson(result, SourceItem::class.java)
+                    var result2 = Gson().fromJson(result, Source.Source::class.java)
 
                     viewModel.getSourceData()
-                        .postValue(result2 as ArrayList<SourceItem>?)
+                        .postValue(result2.sources)
                     println("valls")
 
 

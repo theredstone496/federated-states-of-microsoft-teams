@@ -1,6 +1,5 @@
 package com.example.fsmapp
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -22,11 +21,11 @@ class MainViewModel() : ViewModel() {
     fun getDocData(): MutableLiveData<ArrayList<NewsResult.Article>> {
         return docs
     }
-    private val sources: MutableLiveData<ArrayList<SourceItem>> = MutableLiveData(ArrayList())
-    fun getSources(): ArrayList<SourceItem>? {
+    private val sources: MutableLiveData<ArrayList<Source.SourceItem>> = MutableLiveData(ArrayList())
+    fun getSources(): ArrayList<Source.SourceItem>? {
         return sources.value
     }
-    fun getSourceData(): MutableLiveData<ArrayList<SourceItem>> {
+    fun getSourceData(): MutableLiveData<ArrayList<Source.SourceItem>> {
         return sources
     }
 }
