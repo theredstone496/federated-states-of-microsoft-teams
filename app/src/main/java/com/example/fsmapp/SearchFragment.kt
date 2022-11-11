@@ -65,6 +65,7 @@ class SearchFragment : Fragment() {
                 articleinfo.add(article.source.name)
                 articleinfo.add(article.urlToImage)
                 articleinfo.add(article.publishedAt)
+                articleinfo.add(article.url)
                 articleList.add(articleinfo)
             }
             var adapter = binding.recyclerView.adapter
