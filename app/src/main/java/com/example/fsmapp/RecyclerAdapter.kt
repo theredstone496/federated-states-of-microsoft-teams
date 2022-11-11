@@ -55,7 +55,7 @@ class RecyclerAdapter(private val articleList: ArrayList<NewsResult.Article>):
             var image: Bitmap?
             executor.execute {
                 try {
-                    val `in` = java.net.URL(article.urlToImage).openStream()
+                    val `in` = java.net.URL(article[3]).openStream()
                     image = BitmapFactory.decodeStream(`in`)
                     handler.post {
                         articleImage.setImageBitmap(image)

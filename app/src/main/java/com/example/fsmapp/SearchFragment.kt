@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fsmapp.databinding.FragmentSearchBinding
-import java.lang.StringBuilder
 import java.util.*
 import kotlin.collections.ArrayList
 

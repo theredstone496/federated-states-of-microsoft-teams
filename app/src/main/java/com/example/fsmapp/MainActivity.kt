@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        db = Database(this)
         client = OkHttpClient()
         getSources("https://newsapi.org/v2/sources?q=climate&sortBy=popularity&sources=abc-news&apiKey=ac6a109a7e764a83bbc8836e8f79cb2b")
         binding = ActivityMainBinding.inflate(layoutInflater)
