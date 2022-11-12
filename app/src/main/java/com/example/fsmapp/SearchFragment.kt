@@ -246,7 +246,7 @@ class SearchFragment : Fragment() {
         if (Settings.searchLocations[1]) searchIn += "description,"
         if (Settings.searchLocations[2]) searchIn += "content,"
         if (searchIn != "") searchIn = searchIn.substring(0, searchIn.length-1) else query = "\",,,,,,,,,,,,,,,,,,,,,,,,\""
-        print("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&searchIn=" + searchIn + "&sources=" + sourcelist + "&apiKey=" + key)
-        activity.run("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&searchIn=" + searchIn +"&sources=" + sourcelist + "&apiKey=" + key)
+        print("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&searchIn=" + searchIn + "&sources=" + sourcelist + "&apiKey=" + Settings.apikey)
+        activity.run("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&searchIn=" + searchIn +"&sources=" + sourcelist + "&apiKey=" + Settings.apikey)
     }
 }

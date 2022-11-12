@@ -7,7 +7,7 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="search_articles">Search for articles</string>
-    <string name="dark_mode">Dark mode</string>
+    <string name="api_key">Api key</string>
 
     <string name="history">History</string>
     <string name="search">Search</string>

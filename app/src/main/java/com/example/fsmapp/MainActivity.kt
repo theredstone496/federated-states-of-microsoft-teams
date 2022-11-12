@@ -1,11 +1,17 @@
 package com.example.fsmapp
 
+import android.app.AlertDialog
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.EditText
+import android.widget.RadioButton
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.example.fsmapp.databinding.ActivityMainBinding
 import com.google.gson.Gson
 import okhttp3.*
@@ -24,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     public val JSON: MediaType? = "application/json; charset=utf-8".toMediaTypeOrNull()
     private lateinit var viewModel: MainViewModel
     private lateinit var client: OkHttpClient
+    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +61,8 @@ class MainActivity : AppCompatActivity() {
             tab.text = getString(textArray[position])
             //tab.icon = getDrawable(iconArray[position])
         }.attach()
+        prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        Settings.apikey = (prefs.getString("api", "ca3244e2e766418fbcdc3a6e391e3a33"))!!
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -63,7 +72,31 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.dark_mode -> true
+            R.id.api_key -> {
+
+
+                    var builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                    var contentView: View = this.layoutInflater.inflate(R.layout.apikey_dialog, binding.mainmainView, false)
+                    val apikey = Settings.apikey
+                val apiTF = contentView.findViewById<EditText>(R.id.apiTF)
+                val currApi = contentView.findViewById<TextView>(R.id.currApi)
+                currApi.setText(Settings.apikey)
+                    builder.setView(contentView)
+
+                    builder.setTitle("Enter API Key")
+                    builder.setPositiveButton("Ok",{ dialogInterface, i ->
+                        Settings.apikey = apiTF.text.toString()
+                        var edit = prefs.edit()
+                        edit.putString("api", apiTF.text.toString())
+                        edit.commit()
+                    })
+                builder.setNegativeButton("Cancel") { dialogInterface, i -> }
+
+
+                builder.create().show()
+
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

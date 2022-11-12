@@ -9,5 +9,6 @@ class Settings {
         var existentlangs = arrayListOf("en", "no", "it", "ar", "ud", "de", "pt", "es", "fr", "he", "ru", "sv", "nl", "zh")
         var searchOption: String = "match"
         var searchLocations = arrayListOf(true, true, true)
+        var apikey = ""
     }
 }
