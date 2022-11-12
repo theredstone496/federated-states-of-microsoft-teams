@@ -63,6 +63,7 @@ class SearchFragment : Fragment() {
                     return false
                 }
             })
+
         return binding.root
     }
 
@@ -150,7 +151,8 @@ class SearchFragment : Fragment() {
 
         binding.sortButton.setOnClickListener { view ->
             var builder: AlertDialog.Builder = AlertDialog.Builder(this.context)
-            var contentView: View = this.layoutInflater.inflate(R.layout.sort_dialog, binding.mainView, false)
+            var contentView: View =
+                this.layoutInflater.inflate(R.layout.sort_dialog, binding.mainView, false)
             val sortBtnR: RadioButton = contentView.findViewById(R.id.sortBtnR)
             val sortBtnP: RadioButton = contentView.findViewById(R.id.sortBtnP)
             val sortBtnL: RadioButton = contentView.findViewById(R.id.sortBtnL)
@@ -168,10 +170,11 @@ class SearchFragment : Fragment() {
             }
             builder.setView(contentView)
             builder.setTitle("Sort By:")
-            builder.setPositiveButton("Ok",{ dialogInterface, i ->  search()})
+            builder.setPositiveButton("Ok", { dialogInterface, i -> search() })
 
 
             builder.create().show()
+
         }
         binding.advSearchButton.setOnClickListener { view ->
             var builder: AlertDialog.Builder = AlertDialog.Builder(this.context)
@@ -213,6 +216,7 @@ class SearchFragment : Fragment() {
 
             builder.create().show()
         }
+        search()
     }
     fun search() {
         var langlist = ArrayList<String>()
