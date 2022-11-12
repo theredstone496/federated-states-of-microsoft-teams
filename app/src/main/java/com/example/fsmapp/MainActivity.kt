@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity() {
 
     val key = "ca3244e2e766418fbcdc3a6e391e3a33"
     private lateinit var binding: ActivityMainBinding
-    private val textArray = arrayOf(R.string.history, R.string.search, R.string.history)
+    private val textArray = arrayOf(R.string.search, R.string.history)
+    private val iconArray = arrayOf(R.drawable.ic_baseline_search_24, R.drawable.ic_baseline_history_24)
     public val JSON: MediaType? = "application/json; charset=utf-8".toMediaTypeOrNull()
     private lateinit var viewModel: MainViewModel
     private lateinit var client: OkHttpClient
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = getString(textArray[position])
-            //tab.icon = getDrawable(iconArray[position])
+            tab.icon = getDrawable(iconArray[position])
         }.attach()
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
         Settings.apikey = (prefs.getString("api", "ca3244e2e766418fbcdc3a6e391e3a33"))!!
@@ -150,7 +151,7 @@ class MainActivity : AppCompatActivity() {
 
     // call when user clicks on article
     fun historyUpdated(article: NewsResult.Article) {
-        HistoryFragment.articleList.add(article)
+        HistoryFragment.articleList.add(0, article)
         db.addArticle(article)
     }
 }

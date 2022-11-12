@@ -15,9 +15,8 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     }
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> HistoryFragment()
-            1 -> SearchFragment()
-            2 -> HistoryFragment()
+            0 -> SearchFragment()
+            1 -> HistoryFragment()
             else -> {
                 Log.wtf("bruh", "what even happened here")
                 throw Error("i am become death, destroyer of worlds")

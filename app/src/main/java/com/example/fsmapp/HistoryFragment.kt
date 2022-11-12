@@ -1,5 +1,6 @@
 package com.example.fsmapp
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -37,9 +38,20 @@ class HistoryFragment : Fragment() {
         activity = requireActivity() as MainActivity
         super.onViewCreated(view, savedInstanceState)
 
-        articleList = MainActivity.db.readArticles()
+        articleList = ArrayList(db.readArticles().reversed())
         binding.recyclerViewHist.adapter = RecyclerAdapter(articleList) //idk change adapter if needed
         binding.recyclerViewHist.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.clearHistBtn.setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            builder.setView(this.layoutInflater.inflate(R.layout.options_dialog, binding.mainView2, false))
+            builder.setTitle("Clear History")
+            builder.setPositiveButton("Ok", { dialogInterface, i ->
+                db.clearHistory("articles")
+                articleList.clear()
+                binding.recyclerViewHist.adapter!!.notifyDataSetChanged()
+            })
+        }
     }
 
     override fun onResume() {
