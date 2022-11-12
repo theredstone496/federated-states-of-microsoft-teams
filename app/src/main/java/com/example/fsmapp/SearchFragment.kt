@@ -177,7 +177,7 @@ class SearchFragment : Fragment() {
 
         }
         binding.advSearchButton.setOnClickListener { view ->
-            var builder: AlertDialog.Builder = AlertDialog.Builder(this.context)
+            var builder: AlertDialog.Builder = AlertDialog.Builder(context)
             var contentView: View = this.layoutInflater.inflate(R.layout.options_dialog, binding.mainView, false)
             val matchSelect: RadioButton = contentView.findViewById(R.id.matchSelect)
             val allSelect: RadioButton = contentView.findViewById(R.id.allSelect)
@@ -216,7 +216,6 @@ class SearchFragment : Fragment() {
 
             builder.create().show()
         }
-        search()
     }
     fun search() {
         var langlist = ArrayList<String>()

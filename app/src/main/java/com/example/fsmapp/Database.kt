@@ -26,8 +26,6 @@ class Database(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
         private const val SEARCHES_QUERY = "CREATE TABLE $SEARCHES_TABLE_NAME($SEARCHES_HISTORY_COL TEXT)"
         private const val ARTICLES_QUERY = "CREATE TABLE $ARTICLES_TABLE_NAME($ARTICLES_DATE_COL TEXT,$ARTICLES_SOURCE_COL TEXT,$ARTICLES_TITLE_COL TEXT,$ARTICLES_URL_COL TEXT,$ARTICLES_IMAGE_COL TEXT)"
-
-        private val tables = arrayOf(SEARCHES_TABLE_NAME, ARTICLES_TABLE_NAME)
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -92,15 +90,15 @@ class Database(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
     fun clearHistory(table: String) {
         val db = writableDatabase
-        val i = tableIndex(table)
-        db.delete(tables[i], null, null)
+        val s = tableIndex(table)
+        db.delete(s, null, null)
         db.close()
     }
 
-    private fun tableIndex(table: String) : Int {
+    private fun tableIndex(table: String) : String {
         return when (table) {
-            "searches" -> 0
-            "articles" -> 1
+            "searches" -> SEARCHES_TABLE_NAME
+            "articles" -> ARTICLES_TABLE_NAME
             else -> throw Exception("invalid history column name, smh")
         }
     }
