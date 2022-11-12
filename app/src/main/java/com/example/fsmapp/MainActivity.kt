@@ -79,20 +79,13 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (!response.isSuccessful) throw IOException("Unexpected code $response")
-
-
                         result = response.body!!.string()
                         println(result)
                         var result2 = Gson().fromJson(result, NewsResult.NewsResult2::class.java)
                         println(result2.articles)
                         viewModel.getDocData()
                             .postValue(result2.articles as ArrayList<NewsResult.Article>?)
-                        println("valls")
-
-
-
                 }
-
             }
         })
         return result
@@ -109,20 +102,13 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (!response.isSuccessful) throw IOException("Unexpected code $response")
-
-
                     result = response.body!!.string()
                     println(result)
                     var result2 = Gson().fromJson(result, Source.Source::class.java)
 
                     viewModel.getSourceData()
                         .postValue(result2.sources)
-                    println("valls")
-
-
-
                 }
-
             }
         })
         return result
@@ -131,8 +117,6 @@ class MainActivity : AppCompatActivity() {
     // call when user clicks on article
     fun historyUpdated(article: NewsResult.Article) {
         HistoryFragment.articleList.add(article)
-        var adapter = findViewById<RecyclerView>(R.id.recyclerViewHist).adapter
-        adapter!!.notifyItemInserted(-1)
         db.addArticle(article)
     }
 }

@@ -40,4 +40,9 @@ class HistoryFragment : Fragment() {
         binding.recyclerViewHist.adapter = RecyclerAdapter(articleList) //idk change adapter if needed
         binding.recyclerViewHist.layoutManager = LinearLayoutManager(requireContext())
     }
+
+    override fun onResume() {
+        super.onResume()
+        binding.recyclerViewHist.adapter!!.notifyDataSetChanged()
+    }
 }
