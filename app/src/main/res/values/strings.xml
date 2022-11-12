@@ -14,4 +14,5 @@
 
     <string name="search_hist">Search History</string>
     <string name="article_hist">Article History</string>
+    <string name="clear_hist">Clear History</string>
 </resources>

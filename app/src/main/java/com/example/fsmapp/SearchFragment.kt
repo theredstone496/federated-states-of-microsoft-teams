@@ -52,6 +52,7 @@ class SearchFragment : Fragment() {
         searchView.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
+                    MainActivity.db.addSearch(query)
                     Settings.query = query
                     search()
                     return false

@@ -37,6 +37,7 @@ class HistoryFragment : Fragment() {
         activity = requireActivity() as MainActivity
         super.onViewCreated(view, savedInstanceState)
 
+        articleList = MainActivity.db.readArticles()
         binding.recyclerViewHist.adapter = RecyclerAdapter(articleList) //idk change adapter if needed
         binding.recyclerViewHist.layoutManager = LinearLayoutManager(requireContext())
     }
