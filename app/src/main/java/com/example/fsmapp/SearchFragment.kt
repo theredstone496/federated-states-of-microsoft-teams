@@ -72,12 +72,13 @@ class SearchFragment : Fragment() {
                     langArray = langArray.plus(source.language)
                 }
             }
+            langArray = arrayOf("English", "Norwegian", "Italian", "Arabic", "Urdu", "German", "Portugese", "Spanish", "French", "Hebrew", "Russian", "Swedish", "Dutch", "Chinese")
             println(langArray.size)
             _binding!!.sourceButton.setOnClickListener(View.OnClickListener { // Initialize alert dialog
                 val builder = AlertDialog.Builder(requireContext())
 
                 // set title
-                builder.setTitle("Select Language")
+                builder.setTitle("Filter Sources By Language")
 
                 // set dialog non cancelable
                 builder.setCancelable(false)
@@ -170,6 +171,31 @@ class SearchFragment : Fragment() {
 
             builder.create().show()
         }
+        binding.advSearchButton.setOnClickListener { view ->
+            var builder: AlertDialog.Builder = AlertDialog.Builder(this.context)
+            var contentView: View = this.layoutInflater.inflate(R.layout.options_dialog, binding.mainView, false)
+            val matchSelect: RadioButton = contentView.findViewById(R.id.matchSelect)
+            val allSelect: RadioButton = contentView.findViewById(R.id.allSelect)
+            val oneSelect: RadioButton = contentView.findViewById(R.id.oneSelect)
+            matchSelect.isChecked = Settings.searchOption == "match"
+            allSelect.isChecked = Settings.searchOption == "all"
+            oneSelect.isChecked = Settings.searchOption == "one"
+            matchSelect.setOnClickListener { view ->
+                Settings.searchOption = "match"
+            }
+            allSelect.setOnClickListener { view ->
+                Settings.searchOption = "all"
+            }
+            oneSelect.setOnClickListener { view ->
+                Settings.searchOption = "one"
+            }
+            builder.setView(contentView)
+            builder.setTitle("Search Options")
+            builder.setPositiveButton("Ok",{ dialogInterface, i ->  search()})
+
+
+            builder.create().show()
+        }
     }
     fun search() {
         var langlist = ArrayList<String>()
@@ -181,7 +207,24 @@ class SearchFragment : Fragment() {
             if (source.language in langlist) sourcelist += (source.id + ",")
         }
         sourcelist = sourcelist.substring(0,sourcelist.length-2)
-        print("https://newsapi.org/v2/everything?q=" + Settings.query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=" + key)
-        activity.run("https://newsapi.org/v2/everything?q=" + Settings.query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=" + key)
+        var query = ""
+        when (Settings.searchOption) {
+            "match" -> query = "\"" + Settings.query + "\""
+            "all" -> {
+                var words = Settings.query.split(" ")
+                for (word in words) {
+                    query += "+" + word
+                }
+            }
+            "or" -> {
+                var words = Settings.query.split(" ")
+                for (word in words) {
+                    query += " OR +" + word
+                }
+                query = query.substring(5, query.length-1)
+            }
+        }
+        print("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=" + key)
+        activity.run("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=" + key)
     }
 }
