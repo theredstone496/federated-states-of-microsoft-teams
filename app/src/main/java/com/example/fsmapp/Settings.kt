@@ -8,5 +8,6 @@ class Settings {
         var langs = arrayListOf(true, true,true,true,true,true,true,true,true,true,true,true,true,true)
         var existentlangs = arrayListOf("en", "no", "it", "ar", "ud", "de", "pt", "es", "fr", "he", "ru", "sv", "nl", "zh")
         var searchOption: String = "match"
+        var searchLocations = arrayListOf(true, true, true)
     }
 }

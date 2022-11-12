@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.RadioButton
 import android.widget.SearchView
 import android.widget.Spinner
@@ -177,9 +178,15 @@ class SearchFragment : Fragment() {
             val matchSelect: RadioButton = contentView.findViewById(R.id.matchSelect)
             val allSelect: RadioButton = contentView.findViewById(R.id.allSelect)
             val oneSelect: RadioButton = contentView.findViewById(R.id.oneSelect)
+            val titleCheck: CheckBox = contentView.findViewById(R.id.titleCheck)
+            val descCheck: CheckBox = contentView.findViewById(R.id.descCheck)
+            val bodyCheck: CheckBox = contentView.findViewById(R.id.bodyCheck)
             matchSelect.isChecked = Settings.searchOption == "match"
             allSelect.isChecked = Settings.searchOption == "all"
             oneSelect.isChecked = Settings.searchOption == "one"
+            titleCheck.isChecked = Settings.searchLocations[0]
+            descCheck.isChecked = Settings.searchLocations[1]
+            bodyCheck.isChecked = Settings.searchLocations[2]
             matchSelect.setOnClickListener { view ->
                 Settings.searchOption = "match"
             }
@@ -188,6 +195,15 @@ class SearchFragment : Fragment() {
             }
             oneSelect.setOnClickListener { view ->
                 Settings.searchOption = "one"
+            }
+            titleCheck.setOnClickListener { view ->
+                Settings.searchLocations[0] = titleCheck.isChecked
+            }
+            descCheck.setOnClickListener { view ->
+                Settings.searchLocations[1] = descCheck.isChecked
+            }
+            bodyCheck.setOnClickListener { view ->
+                Settings.searchLocations[2] = bodyCheck.isChecked
             }
             builder.setView(contentView)
             builder.setTitle("Search Options")
@@ -206,7 +222,7 @@ class SearchFragment : Fragment() {
         for ( source: Source.SourceItem in Settings.sources) {
             if (source.language in langlist) sourcelist += (source.id + ",")
         }
-        sourcelist = sourcelist.substring(0,sourcelist.length-2)
+        sourcelist = sourcelist.substring(0,sourcelist.length-1)
         var query = ""
         when (Settings.searchOption) {
             "match" -> query = "\"" + Settings.query + "\""
@@ -221,10 +237,15 @@ class SearchFragment : Fragment() {
                 for (word in words) {
                     query += " OR +" + word
                 }
-                query = query.substring(5, query.length-1)
+                query = query.substring(5, query.length)
             }
         }
-        print("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=" + key)
-        activity.run("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&sources=" + sourcelist + "&apiKey=" + key)
+        var searchIn = ""
+        if (Settings.searchLocations[0]) searchIn += "title,"
+        if (Settings.searchLocations[1]) searchIn += "description,"
+        if (Settings.searchLocations[2]) searchIn += "content,"
+        if (searchIn != "") searchIn = searchIn.substring(0, searchIn.length-1) else query = "\",,,,,,,,,,,,,,,,,,,,,,,,\""
+        print("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&searchIn=" + searchIn + "&sources=" + sourcelist + "&apiKey=" + key)
+        activity.run("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&searchIn=" + searchIn +"&sources=" + sourcelist + "&apiKey=" + key)
     }
 }
