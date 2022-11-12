@@ -1,16 +1,14 @@
 package com.example.fsmapp
 
-import android.net.http.SslError
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.webkit.SslErrorHandler
-import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fsmapp.databinding.ActivityWebBinding
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.URL
+import java.util.*
 
 class WebActivity : AppCompatActivity() {
 
@@ -29,8 +27,8 @@ class WebActivity : AppCompatActivity() {
                 return true
             }
         }
-        webView.loadUrl(url!!
-        )
+        webView.loadUrl(url!!)
+
 
     }
 }

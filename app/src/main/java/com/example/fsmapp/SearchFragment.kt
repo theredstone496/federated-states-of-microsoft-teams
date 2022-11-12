@@ -8,10 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.RadioButton
-import android.widget.SearchView
-import android.widget.Spinner
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fsmapp.databinding.FragmentSearchBinding
@@ -226,30 +223,35 @@ class SearchFragment : Fragment() {
         for ( source: Source.SourceItem in Settings.sources) {
             if (source.language in langlist) sourcelist += (source.id + ",")
         }
-        sourcelist = sourcelist.substring(0,sourcelist.length-1)
-        var query = ""
-        when (Settings.searchOption) {
-            "match" -> query = "\"" + Settings.query + "\""
-            "all" -> {
-                var words = Settings.query.split(" ")
-                for (word in words) {
-                    query += "+" + word
+        if ((sourcelist.length)>1) {
+            sourcelist = sourcelist.substring(0, sourcelist.length - 1)
+            var query = ""
+            when (Settings.searchOption) {
+                "match" -> query = "\"" + Settings.query + "\""
+                "all" -> {
+                    var words = Settings.query.split(" ")
+                    for (word in words) {
+                        query += "+" + word
+                    }
+                }
+                "or" -> {
+                    var words = Settings.query.split(" ")
+                    for (word in words) {
+                        query += " OR +" + word
+                    }
+                    query = query.substring(5, query.length)
                 }
             }
-            "or" -> {
-                var words = Settings.query.split(" ")
-                for (word in words) {
-                    query += " OR +" + word
-                }
-                query = query.substring(5, query.length)
-            }
+            var searchIn = ""
+            if (Settings.searchLocations[0]) searchIn += "title,"
+            if (Settings.searchLocations[1]) searchIn += "description,"
+            if (Settings.searchLocations[2]) searchIn += "content,"
+            if (searchIn != "") searchIn = searchIn.substring(0, searchIn.length - 1) else query =
+                "\",,,,,,,,,,,,,,,,,,,,,,,,\""
+            print("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&searchIn=" + searchIn + "&sources=" + sourcelist + "&apiKey=" + Settings.apikey)
+            activity.run("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&searchIn=" + searchIn + "&sources=" + sourcelist + "&apiKey=" + Settings.apikey)
+        } else {
+            Toast.makeText(context,"Faulty API key", Toast.LENGTH_LONG).show()
         }
-        var searchIn = ""
-        if (Settings.searchLocations[0]) searchIn += "title,"
-        if (Settings.searchLocations[1]) searchIn += "description,"
-        if (Settings.searchLocations[2]) searchIn += "content,"
-        if (searchIn != "") searchIn = searchIn.substring(0, searchIn.length-1) else query = "\",,,,,,,,,,,,,,,,,,,,,,,,\""
-        print("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&searchIn=" + searchIn + "&sources=" + sourcelist + "&apiKey=" + Settings.apikey)
-        activity.run("https://newsapi.org/v2/everything?q=" + query + "&sortBy=" + Settings.sortBy + "&searchIn=" + searchIn +"&sources=" + sourcelist + "&apiKey=" + Settings.apikey)
     }
 }

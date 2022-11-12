@@ -85,16 +85,17 @@ class MainActivity : AppCompatActivity() {
                     builder.setView(contentView)
 
                     builder.setTitle("Enter API Key")
-                    builder.setPositiveButton("Ok",{ dialogInterface, i ->
+                    builder.setPositiveButton("Ok") { dialogInterface, i ->
                         Settings.apikey = apiTF.text.toString()
                         var edit = prefs.edit()
                         edit.putString("api", apiTF.text.toString())
                         edit.commit()
-                    })
+                        getSources("https://newsapi.org/v2/sources?q=climate&sortBy=popularity&sources=abc-news&apiKey=" + Settings.apikey)
+                    }
                 builder.setNegativeButton("Cancel") { dialogInterface, i -> }
-
-
                 builder.create().show()
+
+
 
                 true
             }
